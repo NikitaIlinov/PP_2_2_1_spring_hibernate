@@ -8,10 +8,10 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int series;
     @Column(name = "model")
     private String model;
-
     public Car() {
     }
 

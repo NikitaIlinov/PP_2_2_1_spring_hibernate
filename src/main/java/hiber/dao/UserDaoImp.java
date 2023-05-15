@@ -1,7 +1,6 @@
 package hiber.dao;
 
 import hiber.model.User;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,10 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   public User findByModelCar(String model) {
-      String hql = "FROM Car car LEFT OUTER FETCH car.series WHERE car.model = :paramModel";
-      return sessionFactory.getCurrentSession().createQuery(hql, User.class).setParameter("series", 1).uniqueResult();
+   public User findByModelCar(String model, int series) {
+      String hql = "from User user where user.car.model = :model and user.car.series = :series";
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
+      query.setParameter("model", model).setParameter("series", series);
+      return query.setMaxResults(1).getSingleResult();
    }
 }
